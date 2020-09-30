@@ -6,7 +6,6 @@
 package CurrencyConverterFX;
 import currencyConverterBG.*;
 import currencyConverterFM.*;
-import java.util.*; //
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
