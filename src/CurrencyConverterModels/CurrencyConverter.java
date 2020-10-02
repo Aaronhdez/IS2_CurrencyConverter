@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package currencyconverter.models;
+package CurrencyConverterModels;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  *
  * @author Usuario
  */
-public class CurrencyConverter {
+public class CurrencyConverter implements CurrencyConvert{
     /**
      * Pasive Atributes
      */
@@ -56,6 +56,7 @@ public class CurrencyConverter {
      * @return 
      * @throws java.io.IOException 
      */
+    @Override
     public double convert() throws IOException{
         try {
             URL url = new URL("http://free.currencyconverterapi.com/api/v5/convert?q=" +

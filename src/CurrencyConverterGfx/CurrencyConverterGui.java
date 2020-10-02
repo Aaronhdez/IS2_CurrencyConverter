@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package currencyconverter.gfx;
-import currencyconverter.models.CurrencyConverter;
-import currencyconverter.filemanager.CurrencyFileManager;
+package CurrencyConverterGfx;
+import CurrencyConverterModels.CurrencyConverter;
+import CurrencyConverterFileManager.CurrencyFileManager;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -152,8 +152,8 @@ public class CurrencyConverterGui extends JFrame {
         this.convertBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evn0){
-                currencyconverter.models.Currency a = (currencyconverter.models.Currency)comboFrom.getSelectedItem();
-                currencyconverter.models.Currency b = (currencyconverter.models.Currency)comboTo.getSelectedItem();
+                CurrencyConverterModels.Currency a = (CurrencyConverterModels.Currency)comboFrom.getSelectedItem();
+                CurrencyConverterModels.Currency b = (CurrencyConverterModels.Currency)comboTo.getSelectedItem();
                 
                 conversor = new CurrencyConverter(a.getTag(),b.getTag(),Double.parseDouble(fromValue.getText()));
                 String aux;
