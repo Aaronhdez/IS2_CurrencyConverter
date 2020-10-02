@@ -3,11 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package CurrencyConverterFX;
-import currencyConverterBG.*;
-import currencyConverterFM.*;
+package currencyconverter.gfx;
+import currencyconverter.models.CurrencyConverter;
+import currencyconverter.filemanager.CurrencyFileManager;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 /**
  *
@@ -18,7 +21,6 @@ public class CurrencyConverterGui extends JFrame {
      * Structural Attributes
      */
     CurrencyConverter conversor;
-    CcFileManager localCcFileManager;
     CurrencyFileManager localCurrencyFileManager;
     
     /**
@@ -40,6 +42,7 @@ public class CurrencyConverterGui extends JFrame {
     
     /**
      * Graphical Constructor
+     * @param t
      */
     public CurrencyConverterGui(String t){
         super(t);
@@ -58,16 +61,24 @@ public class CurrencyConverterGui extends JFrame {
     /**
      * BACKGROUND ASSETS CONFIGURATION
      */
+    /**
+     * 
+     */
     private void initStructuralAssets(){
         /* Main Assets */
-        this.localCcFileManager = new CcFileManager();
         this.localCurrencyFileManager = new CurrencyFileManager();
-        this.conversor = new CurrencyConverter(localCcFileManager.returnCurrentExchangeRates());    
+        conversor = new CurrencyConverter();     
     }    
 
     /**
      * GRAPHICAL SETTINGS AND BUILD-UP
-     */    
+     */
+
+    
+    /**
+     * 
+     * @param container 
+     */
     private void initGraphicalAssets(Container container){
         JPanel main = new JPanel(new BorderLayout());
         initCenterPanel(main);
@@ -77,6 +88,11 @@ public class CurrencyConverterGui extends JFrame {
         initEvents();
     }    
 
+    
+    /**
+     * 
+     * @param main 
+     */
     private void initCenterPanel(JPanel main){
         this.fromValue = new JTextField(15);
         this.centerPanel = new JPanel(new BorderLayout());
@@ -100,6 +116,11 @@ public class CurrencyConverterGui extends JFrame {
         main.add(centerPanel, BorderLayout.CENTER);
     }
     
+    
+    /**
+     * 
+     * @param main 
+     */
     private void initEastPanel(JPanel main){
         this.convertBtn = new JButton("Convertir");
         this.eastPanel = new JPanel();
@@ -108,6 +129,11 @@ public class CurrencyConverterGui extends JFrame {
         main.add(eastPanel, BorderLayout.EAST);
     }
     
+    
+    /**
+     * 
+     * @param main 
+     */
     private void initSouthPanel(JPanel main){
         this.resultField = new JTextField(15);
         this.resultField.setEditable(false);
@@ -118,21 +144,35 @@ public class CurrencyConverterGui extends JFrame {
         main.add(southPanel, BorderLayout.SOUTH);
     }
     
+    
+    /**
+     * 
+     */
     private void initEvents(){
         this.convertBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evn0){
-                currencyConverterBG.Currency a = (currencyConverterBG.Currency)comboFrom.getSelectedItem();
-                currencyConverterBG.Currency b = (currencyConverterBG.Currency)comboTo.getSelectedItem();
+                currencyconverter.models.Currency a = (currencyconverter.models.Currency)comboFrom.getSelectedItem();
+                currencyconverter.models.Currency b = (currencyconverter.models.Currency)comboTo.getSelectedItem();
                 
-                conversor = new CurrencyConverter(a.getTag(),b.getTag(),Double.parseDouble(fromValue.getText()),localCcFileManager.returnCurrentExchangeRates());
-                String aux = conversor.convert()+"";
-                resultField.setText(aux);
-                conversor = new CurrencyConverter(localCcFileManager.returnCurrentExchangeRates()); 
+                conversor = new CurrencyConverter(a.getTag(),b.getTag(),Double.parseDouble(fromValue.getText()));
+                String aux;
+                try {
+                    aux = conversor.convert()+"";
+                    resultField.setText(aux);
+                } catch (IOException ex) {
+                    Logger.getLogger(CurrencyConverterGui.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                conversor = new CurrencyConverter(); 
             }
         });
     }
     
+    
+    /**
+     * 
+     * @param args 
+     */
     public static void main(String args[]){
         CurrencyConverterGui app = new CurrencyConverterGui("Conversor Monetario");
     }
